@@ -1,70 +1,217 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Redux Öğrenme Projesi
 
-## Available Scripts
+### Bankacılık senaryosu üzerinden Redux ve React-Redux pratiği
 
-In the project directory, you can run:
+[![React](https://img.shields.io/badge/React-19.2.8-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Redux](https://img.shields.io/badge/Odak-Redux%20%C3%96%C4%9Frenimi-764ABC?logo=redux&logoColor=white)](https://redux.js.org/)
+[![Dil](https://img.shields.io/badge/Aray%C3%BCz-T%C3%BCrk%C3%A7e-E30A17)](#proje-hakkında)
+[![Durum](https://img.shields.io/badge/Durum-%C3%96%C4%9Frenme%20A%C5%9Famas%C4%B1nda-F59E0B)](#mevcut-durum)
 
-### `npm start`
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Proje hakkında
 
-### `npm test`
+Bu repoyu **Redux öğrenme sürecimi uygulamalı olarak ilerletmek ve öğrendiğim kavramları kalıcı hâle getirmek** amacıyla oluşturdum. Proje, gerçek bir bankacılık ürünü geliştirme hedefi taşımaz; bankacılık işlemleri yalnızca Redux'un merkezi durum yönetimini anlamak için kullanılan örnek bir senaryodur.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Müşteri oluşturma, para yatırma, para çekme ve kredi işlemleri gibi birbiriyle ilişkili veriler sayesinde aşağıdaki sorulara pratik yaparak cevap arıyorum:
 
-### `npm run build`
+- Uygulama durumu tek bir merkezden nasıl yönetilir?
+- Bir kullanıcı işlemi Redux store'u nasıl günceller?
+- Bileşenler ihtiyaç duydukları veriyi store'dan nasıl okur?
+- Action, reducer ve dispatch arasındaki veri akışı nasıl çalışır?
+- Asenkron işlemler Redux mimarisine nasıl eklenir?
+- Klasik Redux yaklaşımı ile Redux Toolkit arasındaki farklar nelerdir?
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+> [!NOTE]
+> Bu proje bir öğrenme alanıdır. Kod yapısı, Redux konularında ilerledikçe bilinçli olarak değişecek ve geliştirilecektir.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Öğrenme hedeflerim
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [ ] Redux'un temel çalışma mantığını anlamak
+- [ ] Store, action, reducer ve dispatch kavramlarını uygulamak
+- [ ] Birden fazla reducer ile durum alanlarını ayırmak
+- [ ] React uygulamasını `Provider` ile Redux store'a bağlamak
+- [ ] `useSelector` ile store'dan veri okumak
+- [ ] `useDispatch` ile bileşenlerden action göndermek
+- [ ] Redux Toolkit ile `configureStore` ve `createSlice` kullanmak
+- [ ] Thunk yapısıyla asenkron işlemleri yönetmek
+- [ ] Redux DevTools üzerinden state değişimlerini takip etmek
+- [ ] Redux mantığını otomatik testlerle doğrulamak
 
-### `npm run eject`
+## Neden bankacılık senaryosu?
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Bankacılık arayüzü, Redux öğrenmek için birbiriyle bağlantılı fakat farklı sorumluluklara sahip durum alanları sunar:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Uygulama bölümü | Yönetilecek durum | Pratik yapılacak Redux konusu |
+| --- | --- | --- |
+| Müşteri oluşturma | Ad, kimlik numarası, oluşturulma zamanı | Customer state ve action yapısı |
+| Bakiye | Güncel hesap bakiyesi | Merkezi state okuma ve güncelleme |
+| Para yatırma | Tutar ve para birimi | Payload ile action gönderme |
+| Para çekme | Çekilecek tutar | Reducer kuralları ve state güncelleme |
+| Kredi talebi | Kredi tutarı ve amacı | Birbiriyle ilişkili state alanları |
+| Kredi ödemesi | Aktif kredi bakiyesi | Koşullu state değişimi |
+| Döviz işlemleri | Kur ve dönüştürülmüş tutar | Asenkron action ve thunk kullanımı |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Bu yapı, yalnızca sayaç veya yapılacaklar listesi gibi küçük örneklerden farklı olarak Redux veri akışını daha gerçekçi birden fazla senaryo üzerinde deneyimlememi sağlıyor.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Redux veri akışı
 
-## Learn More
+Projede ulaşmak istediğim temel veri akışı şöyledir:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```text
+Kullanıcı etkileşimi
+        ↓
+Action oluşturulması
+        ↓
+dispatch(action)
+        ↓
+Reducer'ın mevcut state ve action'ı işlemesi
+        ↓
+Redux Store'un güncellenmesi
+        ↓
+useSelector kullanan bileşenlerin yeniden çizilmesi
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Redux'un temel ilkelerini bu proje üzerinde gözlemlemeyi hedefliyorum:
 
-### Code Splitting
+1. Uygulama durumu merkezi bir store içerisinde tutulur.
+2. State doğrudan değiştirilmez; değişiklik isteği bir action ile ifade edilir.
+3. Reducer, mevcut state ve action üzerinden yeni durumu belirler.
+4. Aynı action aynı state üzerinde çalıştığında öngörülebilir bir sonuç üretir.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Mevcut durum
 
-### Analyzing the Bundle Size
+Proje şu anda **React arayüzü ve yerel form durumu** aşamasındadır. Form alanları `useState` ile kontrol edilmektedir. Redux henüz bağımlılıklara eklenmemiş, işlem butonları reducer veya store'a bağlanmamıştır.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+| Aşama | Durum |
+| --- | :---: |
+| React bileşenlerinin hazırlanması | ✅ Tamamlandı |
+| Türkçe kullanıcı arayüzü | ✅ Tamamlandı |
+| Kontrollü form alanları | ✅ Tamamlandı |
+| Redux store kurulumu | ⏳ Sırada |
+| Customer reducer | ⏳ Sırada |
+| Account reducer | ⏳ Sırada |
+| React-Redux bağlantısı | ⏳ Sırada |
+| Redux Toolkit dönüşümü | ⏳ Planlandı |
+| Asenkron döviz işlemleri | ⏳ Planlandı |
+| Redux testleri | ⏳ Planlandı |
 
-### Making a Progressive Web App
+## Öğrenme planı
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 1. Arayüz ve yerel durum
 
-### Advanced Configuration
+Öncelikle uygulamanın bileşenlerini ve form alanlarını hazırlamak. Hangi verilerin yerel, hangilerinin global olması gerektiğini gözlemlemek.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 2. Temel Redux kurulumu
 
-### Deployment
+Store, action type, action creator ve reducer yapılarını doğrudan Redux API'siyle kurmak. Böylece Redux Toolkit'in çözdüğü problemleri kullanmadan önce temel mekanizmayı anlamak.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 3. React-Redux entegrasyonu
 
-### `npm run build` fails to minify
+Uygulamayı `Provider` ile store'a bağlamak; bileşenlerde `useSelector` ve `useDispatch` kullanarak yerel durum ile global durumun sorumluluklarını ayırmak.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 4. Asenkron işlemler
+
+Döviz kuru gibi dış kaynaklardan gelen verileri thunk middleware üzerinden yönetmek; yükleniyor ve hata durumlarını state içerisinde modellemek.
+
+### 5. Redux Toolkit'e geçiş
+
+Mevcut reducer ve action yapılarını `configureStore` ve `createSlice` kullanarak sadeleştirmek. Klasik Redux ile Redux Toolkit arasındaki kod ve geliştirici deneyimi farklarını karşılaştırmak.
+
+### 6. Test ve iyileştirme
+
+Reducer'ları saf fonksiyon olarak test etmek, kullanıcı işlemlerinin store üzerindeki etkisini doğrulamak ve Redux DevTools ile veri akışını incelemek.
+
+## Bileşen yapısı
+
+```text
+App
+├── CreateCustomer      Müşteri bilgilerini alan form
+├── Customer            Aktif müşteriyi gösteren alan
+├── AccountOperations   Para ve kredi işlemleri
+└── BalanceDisplay      Hesap bakiyesi görünümü
+```
+
+Redux entegrasyonundan sonra hedeflenen sorumluluk dağılımı:
+
+```text
+src/
+├── features/
+│   ├── accounts/       Hesap state'i, reducer ve action'lar
+│   └── customers/      Müşteri state'i, reducer ve action'lar
+├── store.js            Merkezi Redux store yapılandırması
+├── App.js              Ana uygulama bileşeni
+└── index.js            Provider ve uygulama başlangıcı
+```
+
+> Bu dizin yapısı hedeflenen mimariyi gösterir. Redux dosyaları öğrenme adımları tamamlandıkça projeye eklenecektir.
+
+## Kullanılan teknolojiler
+
+| Teknoloji | Projedeki rolü |
+| --- | --- |
+| [React](https://react.dev/) | Bileşen tabanlı kullanıcı arayüzü |
+| React Hooks | Form alanlarının mevcut yerel durum yönetimi |
+| [Redux](https://redux.js.org/) | Öğrenilmesi hedeflenen merkezi durum yönetimi |
+| [React-Redux](https://react-redux.js.org/) | React bileşenleri ile Redux store arasındaki bağlantı |
+| [Redux Toolkit](https://redux-toolkit.js.org/) | İlerleyen aşamalarda modern Redux geliştirme yaklaşımı |
+| Testing Library | Kullanıcı davranışlarına odaklanan test altyapısı |
+
+Redux, React-Redux ve Redux Toolkit tabloda öğrenme hedefi olarak yer almaktadır; mevcut proje bağımlılıklarına henüz eklenmemiştir.
+
+## Kurulum ve çalıştırma
+
+Projeyi yerel ortamda çalıştırmak için Node.js ve npm gereklidir.
+
+```bash
+# Bağımlılıkları kur
+npm ci
+
+# Geliştirme sunucusunu başlat
+npm start
+```
+
+Uygulama varsayılan olarak [http://localhost:3000](http://localhost:3000) adresinde açılır.
+
+### Kullanılabilir komutlar
+
+| Komut | Açıklama |
+| --- | --- |
+| `npm start` | Geliştirme sunucusunu başlatır. |
+| `npm test` | Testleri etkileşimli izleme modunda çalıştırır. |
+| `npm run build` | Optimize edilmiş üretim derlemesi oluşturur. |
+| `npm run eject` | CRA yapılandırmasını dışarı çıkarır; geri alınamaz. |
+
+## Öğrenme notları
+
+Bu bölüm, proje geliştikçe karşılaştığım önemli noktaları kaydetmek için kullanılacaktır:
+
+- Yerel component state, yalnızca ilgili bileşenin ihtiyaç duyduğu geçici form verileri için uygundur.
+- Birden fazla bileşenin okuduğu veya değiştirdiği veriler global state için daha güçlü adaylardır.
+- Redux, tüm state'i global yapmak için değil; paylaşılan ve öngörülebilir biçimde yönetilmesi gereken state için kullanılmalıdır.
+- Reducer içerisinde yan etki gerçekleştirilmemeli; asenkron işlemler middleware katmanında yönetilmelidir.
+
+## Projenin kapsamı
+
+Bu çalışma:
+
+- Redux öğrenmek ve tekrar yapmak,
+- kavramları çalışan kod üzerinde görmek,
+- ilerlemeyi commit geçmişiyle belgelemek,
+- klasik Redux ile Redux Toolkit'i karşılaştırmak
+
+için geliştirilmektedir.
+
+Bu çalışma gerçek müşteri verisi saklamak, gerçek para transferi yapmak veya üretim ortamında kullanılacak bir finans sistemi oluşturmak için tasarlanmamıştır.
+
+---
+
+<div align="center">
+
+**Amaç yalnızca çalışan bir uygulama oluşturmak değil, Redux'un neden ve nasıl çalıştığını anlayabilmektir.**
+
+</div>
