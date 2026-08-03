@@ -32,7 +32,7 @@ function reducer(state = initalState, action) {
         ...state,
         loan: 0,
         loanPurpose: "",
-        balance: action.balance - state.loan,
+        balance: state.balance - state.loan,
       };
 
     default:
