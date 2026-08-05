@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { deposit, withdraw, requestLoan, payLoan } from "./accountSlice";
 
 function AccountOperations() {
   const [depositAmount, setDepositAmount] = useState("");
@@ -7,13 +10,35 @@ function AccountOperations() {
   const [loanPurpose, setLoanPurpose] = useState("");
   const [currency, setCurrency] = useState("USD");
 
-  function handleDeposit() {}
+  const dispatch = useDispatch();
 
-  function handleWithdrawal() {}
+  const account = useSelector((state) => state.account);
 
-  function handleRequestLoan() {}
+  console.log(account);
 
-  function handlePayLoan() {}
+  function handleDeposit() {
+    if (!depositAmount) return;
+    dispatch(deposit(depositAmount));
+    setDepositAmount("");
+  }
+
+  function handleWithdrawal() {
+    if (!withdrawalAmount) return;
+    dispatch(withdraw(withdrawalAmount));
+    setWithdrawalAmount("");
+  }
+
+  function handleRequestLoan() {
+    if (!loanAmount || !loanPurpose) return;
+    dispatch(requestLoan(loanAmount, loanPurpose));
+    setLoanAmount("");
+    setLoanPurpose("");
+  }
+
+  function handlePayLoan() {
+    if (!account.loan) return;
+    dispatch(payLoan());
+  }
 
   return (
     <div>
@@ -45,9 +70,7 @@ function AccountOperations() {
             value={withdrawalAmount}
             onChange={(e) => setWithdrawalAmount(+e.target.value)}
           />
-          <button onClick={handleWithdrawal}>
-            Çek {withdrawalAmount}
-          </button>
+          <button onClick={handleWithdrawal}>Çek {withdrawalAmount}</button>
         </div>
 
         <div>
@@ -66,10 +89,15 @@ function AccountOperations() {
           <button onClick={handleRequestLoan}>Kredi talep et</button>
         </div>
 
-        <div>
-          <span>Geri ödenecek tutar: $X</span>
-          <button onClick={handlePayLoan}>Krediyi öde</button>
-        </div>
+        {account.loan > 0 && (
+          <div>
+            <span>
+              Geri ödenecek tutar: ${account.loan}
+              {account.loanPurpose && `(${account.loanPurpose})`}
+            </span>
+            <button onClick={handlePayLoan}>Krediyi öde</button>
+          </div>
+        )}
       </div>
     </div>
   );

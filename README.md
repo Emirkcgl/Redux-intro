@@ -1,13 +1,16 @@
 <div align="center">
 
-# Redux Öğrenme Projesi
+# Redux Banka Uygulaması
 
-### Bankacılık senaryosu üzerinden Redux ve React-Redux pratiği
+### Klasik Redux'tan Redux Toolkit'e uzanan uygulamalı öğrenme projesi
 
-[![React](https://img.shields.io/badge/React-19.2.8-61DAFB?logo=react&logoColor=white)](https://react.dev/)
-[![Redux](https://img.shields.io/badge/Odak-Redux%20%C3%96%C4%9Frenimi-764ABC?logo=redux&logoColor=white)](https://redux.js.org/)
-[![Dil](https://img.shields.io/badge/Aray%C3%BCz-T%C3%BCrk%C3%A7e-E30A17)](#proje-hakkında)
-[![Durum](https://img.shields.io/badge/Durum-%C3%96%C4%9Frenme%20A%C5%9Famas%C4%B1nda-F59E0B)](#mevcut-durum)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Redux](https://img.shields.io/badge/Redux-Klasik%20Redux-764ABC?logo=redux&logoColor=white)](https://redux.js.org/)
+[![React Redux](https://img.shields.io/badge/React--Redux-Hooks-764ABC?logo=redux&logoColor=white)](https://react-redux.js.org/)
+[![Language](https://img.shields.io/badge/Arayüz-Türkçe-E30A17)](#proje-hakkında)
+[![Status](https://img.shields.io/badge/Durum-Aktif%20Öğrenme-F59E0B)](#mevcut-ilerleme)
+
+Bu proje; Redux'un temel veri akışını, React entegrasyonunu, asenkron işlemleri ve Redux Toolkit'e geçiş sürecini bankacılık senaryosu üzerinden uygulamalı olarak öğrenmek için geliştirilmektedir.
 
 </div>
 
@@ -15,203 +18,465 @@
 
 ## Proje hakkında
 
-Bu repoyu **Redux öğrenme sürecimi uygulamalı olarak ilerletmek ve öğrendiğim kavramları kalıcı hâle getirmek** amacıyla oluşturdum. Proje, gerçek bir bankacılık ürünü geliştirme hedefi taşımaz; bankacılık işlemleri yalnızca Redux'un merkezi durum yönetimini anlamak için kullanılan örnek bir senaryodur.
+Bu repository, Redux öğrenme sürecinde edinilen bilgileri çalışan bir uygulama üzerinde pekiştirmek amacıyla oluşturulmuştur.
 
-Müşteri oluşturma, para yatırma, para çekme ve kredi işlemleri gibi birbiriyle ilişkili veriler sayesinde aşağıdaki sorulara pratik yaparak cevap arıyorum:
+Projede müşteri oluşturma, para yatırma, para çekme, kredi talep etme ve kredi ödeme gibi işlemler üzerinden aşağıdaki yapıların nasıl birlikte çalıştığı incelenmektedir:
 
-- Uygulama durumu tek bir merkezden nasıl yönetilir?
-- Bir kullanıcı işlemi Redux store'u nasıl günceller?
-- Bileşenler ihtiyaç duydukları veriyi store'dan nasıl okur?
-- Action, reducer ve dispatch arasındaki veri akışı nasıl çalışır?
-- Asenkron işlemler Redux mimarisine nasıl eklenir?
-- Klasik Redux yaklaşımı ile Redux Toolkit arasındaki farklar nelerdir?
+- Redux store
+- Reducer fonksiyonları
+- Action ve action creator yapıları
+- `dispatch`
+- `Provider`
+- `useSelector`
+- `useDispatch`
+- Middleware ve thunk
+- Redux Toolkit
 
-> [!NOTE]
-> Bu proje bir öğrenme alanıdır. Kod yapısı, Redux konularında ilerledikçe bilinçli olarak değişecek ve geliştirilecektir.
+> [!IMPORTANT]
+> Bu uygulama gerçek bir bankacılık sistemi değildir. Bankacılık işlemleri yalnızca Redux'un durum yönetimi yaklaşımını anlamak için örnek senaryo olarak kullanılmaktadır.
 
-## Öğrenme hedeflerim
+---
 
-- [ ] Redux'un temel çalışma mantığını anlamak
-- [ ] Store, action, reducer ve dispatch kavramlarını uygulamak
-- [ ] Birden fazla reducer ile durum alanlarını ayırmak
-- [ ] React uygulamasını `Provider` ile Redux store'a bağlamak
-- [ ] `useSelector` ile store'dan veri okumak
-- [ ] `useDispatch` ile bileşenlerden action göndermek
-- [ ] Redux Toolkit ile `configureStore` ve `createSlice` kullanmak
-- [ ] Thunk yapısıyla asenkron işlemleri yönetmek
-- [ ] Redux DevTools üzerinden state değişimlerini takip etmek
-- [ ] Redux mantığını otomatik testlerle doğrulamak
+## Mevcut ilerleme
 
-## Neden bankacılık senaryosu?
+Proje şu anda **klasik Redux ile React entegrasyonu** aşamasındadır.
 
-Bankacılık arayüzü, Redux öğrenmek için birbiriyle bağlantılı fakat farklı sorumluluklara sahip durum alanları sunar:
+Redux store oluşturulmuş, hesap ve müşteri durumları ayrı reducer'lara bölünmüş, action creator'lar hazırlanmış ve React bileşenleri store'a bağlanmıştır. Kullanıcı işlemleri artık bileşenlerden `dispatch` edilerek merkezi state'i güncelleyebilmektedir.
 
-| Uygulama bölümü | Yönetilecek durum | Pratik yapılacak Redux konusu |
-| --- | --- | --- |
-| Müşteri oluşturma | Ad, kimlik numarası, oluşturulma zamanı | Customer state ve action yapısı |
-| Bakiye | Güncel hesap bakiyesi | Merkezi state okuma ve güncelleme |
-| Para yatırma | Tutar ve para birimi | Payload ile action gönderme |
-| Para çekme | Çekilecek tutar | Reducer kuralları ve state güncelleme |
-| Kredi talebi | Kredi tutarı ve amacı | Birbiriyle ilişkili state alanları |
-| Kredi ödemesi | Aktif kredi bakiyesi | Koşullu state değişimi |
-| Döviz işlemleri | Kur ve dönüştürülmüş tutar | Asenkron action ve thunk kullanımı |
+| Konu | Durum |
+| --- | :---: |
+| Redux'a giriş ve temel kavramlar | ✅ |
+| Account reducer oluşturulması | ✅ |
+| Redux store kurulumu | ✅ |
+| Action creator kullanımı | ✅ |
+| Customer state eklenmesi | ✅ |
+| State slice dosya yapısı | ✅ |
+| React uygulamasının `Provider` ile bağlanması | ✅ |
+| `useSelector` ile state okunması | ✅ |
+| `useDispatch` ile action gönderilmesi | ✅ |
+| Legacy `connect` yaklaşımı | ⏳ |
+| Redux middleware ve thunk | ⏳ |
+| Thunk ile API isteği | ⏳ |
+| Redux DevTools | ⏳ |
+| Redux Toolkit kurulumu | ⏳ |
+| `configureStore` kullanımı | ⏳ |
+| `createSlice` ile account slice | ⏳ |
+| Redux Toolkit ile thunk kullanımı | ⏳ |
+| `createSlice` ile customer slice | ⏳ |
+| Redux ve Context API karşılaştırması | ⏳ |
+| Otomatik testler | ⏳ |
 
-Bu yapı, yalnızca sayaç veya yapılacaklar listesi gibi küçük örneklerden farklı olarak Redux veri akışını daha gerçekçi birden fazla senaryo üzerinde deneyimlememi sağlıyor.
+---
+
+## Öğrenme hedefleri
+
+- [x] Redux'un tek yönlü veri akışını anlamak
+- [x] Store, reducer, action ve dispatch ilişkisini uygulamak
+- [x] State'i sorumluluklarına göre ayrı reducer'lara bölmek
+- [x] Action creator kullanarak action üretmek
+- [x] React uygulamasını `Provider` ile Redux store'a bağlamak
+- [x] `useSelector` ile global state okumak
+- [x] `useDispatch` ile kullanıcı işlemlerini store'a göndermek
+- [ ] Middleware'in Redux veri akışındaki rolünü anlamak
+- [ ] Thunk ile asenkron işlemler gerçekleştirmek
+- [ ] Döviz kuru API isteğini Redux üzerinden yönetmek
+- [ ] Redux DevTools ile action ve state geçmişini incelemek
+- [ ] Klasik Redux yapısını Redux Toolkit'e dönüştürmek
+- [ ] `configureStore` ve `createSlice` kullanmak
+- [ ] Reducer ve kullanıcı akışlarını otomatik testlerle doğrulamak
+
+---
+
+## Uygulama özellikleri
+
+### Müşteri yönetimi
+
+- Müşteri adı ve kimlik numarası alınır.
+- Müşteri oluşturma işlemi bir action üzerinden Redux store'a gönderilir.
+- Oluşturulan müşteri bilgileri merkezi state içerisinde saklanır.
+- Müşteri oluşturulma zamanı state içerisinde tutulur.
+
+### Hesap işlemleri
+
+- Para yatırma
+- Para çekme
+- Kredi talep etme
+- Kredi ödeme
+- Hesap bakiyesini görüntüleme
+
+### Planlanan asenkron işlem
+
+Farklı para birimleriyle yapılan para yatırma işlemlerinde:
+
+1. Güncel döviz kuru API üzerinden alınacak.
+2. İstek durumu Redux state içerisinde yönetilecek.
+3. Tutar ana para birimine dönüştürülecek.
+4. Sonuç thunk üzerinden store'a gönderilecek.
+
+---
 
 ## Redux veri akışı
 
-Projede ulaşmak istediğim temel veri akışı şöyledir:
+Projede kullanılan temel veri akışı:
 
 ```text
-Kullanıcı etkileşimi
-        ↓
-Action oluşturulması
-        ↓
+Kullanıcı bir işlem gerçekleştirir
+                ↓
+Bileşen action creator'ı çağırır
+                ↓
 dispatch(action)
-        ↓
-Reducer'ın mevcut state ve action'ı işlemesi
-        ↓
-Redux Store'un güncellenmesi
-        ↓
-useSelector kullanan bileşenlerin yeniden çizilmesi
+                ↓
+Action Redux store'a gönderilir
+                ↓
+İlgili reducer action'ı işler
+                ↓
+Yeni state oluşturulur
+                ↓
+Store aboneleri bilgilendirir
+                ↓
+useSelector kullanan bileşen yeniden render edilir
 ```
 
-Redux'un temel ilkelerini bu proje üzerinde gözlemlemeyi hedefliyorum:
+Örnek kullanım:
 
-1. Uygulama durumu merkezi bir store içerisinde tutulur.
-2. State doğrudan değiştirilmez; değişiklik isteği bir action ile ifade edilir.
-3. Reducer, mevcut state ve action üzerinden yeni durumu belirler.
-4. Aynı action aynı state üzerinde çalıştığında öngörülebilir bir sonuç üretir.
+```js
+function handleDeposit() {
+  if (!depositAmount) return;
 
-## Mevcut durum
-
-Proje şu anda **React arayüzü ve yerel form durumu** aşamasındadır. Form alanları `useState` ile kontrol edilmektedir. Redux henüz bağımlılıklara eklenmemiş, işlem butonları reducer veya store'a bağlanmamıştır.
-
-| Aşama | Durum |
-| --- | :---: |
-| React bileşenlerinin hazırlanması | ✅ Tamamlandı |
-| Türkçe kullanıcı arayüzü | ✅ Tamamlandı |
-| Kontrollü form alanları | ✅ Tamamlandı |
-| Redux store kurulumu | ⏳ Sırada |
-| Customer reducer | ⏳ Sırada |
-| Account reducer | ⏳ Sırada |
-| React-Redux bağlantısı | ⏳ Sırada |
-| Redux Toolkit dönüşümü | ⏳ Planlandı |
-| Asenkron döviz işlemleri | ⏳ Planlandı |
-| Redux testleri | ⏳ Planlandı |
-
-## Öğrenme planı
-
-### 1. Arayüz ve yerel durum
-
-Öncelikle uygulamanın bileşenlerini ve form alanlarını hazırlamak. Hangi verilerin yerel, hangilerinin global olması gerektiğini gözlemlemek.
-
-### 2. Temel Redux kurulumu
-
-Store, action type, action creator ve reducer yapılarını doğrudan Redux API'siyle kurmak. Böylece Redux Toolkit'in çözdüğü problemleri kullanmadan önce temel mekanizmayı anlamak.
-
-### 3. React-Redux entegrasyonu
-
-Uygulamayı `Provider` ile store'a bağlamak; bileşenlerde `useSelector` ve `useDispatch` kullanarak yerel durum ile global durumun sorumluluklarını ayırmak.
-
-### 4. Asenkron işlemler
-
-Döviz kuru gibi dış kaynaklardan gelen verileri thunk middleware üzerinden yönetmek; yükleniyor ve hata durumlarını state içerisinde modellemek.
-
-### 5. Redux Toolkit'e geçiş
-
-Mevcut reducer ve action yapılarını `configureStore` ve `createSlice` kullanarak sadeleştirmek. Klasik Redux ile Redux Toolkit arasındaki kod ve geliştirici deneyimi farklarını karşılaştırmak.
-
-### 6. Test ve iyileştirme
-
-Reducer'ları saf fonksiyon olarak test etmek, kullanıcı işlemlerinin store üzerindeki etkisini doğrulamak ve Redux DevTools ile veri akışını incelemek.
-
-## Bileşen yapısı
-
-```text
-App
-├── CreateCustomer      Müşteri bilgilerini alan form
-├── Customer            Aktif müşteriyi gösteren alan
-├── AccountOperations   Para ve kredi işlemleri
-└── BalanceDisplay      Hesap bakiyesi görünümü
+  dispatch(deposit(Number(depositAmount), currency));
+}
 ```
 
-Redux entegrasyonundan sonra hedeflenen sorumluluk dağılımı:
+Bu işlemde bileşen state'i doğrudan değiştirmez. Yalnızca gerçekleşen işlemi ifade eden action'ı Redux store'a gönderir.
+
+---
+
+## State yapısı
+
+Uygulamanın global state'i iki ana bölüme ayrılmıştır:
+
+```js
+{
+  account: {
+    balance: 0,
+    loan: 0,
+    loanPurpose: "",
+    isLoading: false
+  },
+  customer: {
+    fullName: "",
+    nationalId: "",
+    createdAt: ""
+  }
+}
+```
+
+Bu ayrım sayesinde her reducer yalnızca kendi sorumluluğundaki state alanını yönetir.
+
+| State alanı | Sorumluluk |
+| --- | --- |
+| `account` | Bakiye, para yatırma, para çekme ve kredi işlemleri |
+| `customer` | Müşteri bilgileri ve oluşturulma zamanı |
+
+---
+
+## Proje mimarisi
 
 ```text
 src/
 ├── features/
-│   ├── accounts/       Hesap state'i, reducer ve action'lar
-│   └── customers/      Müşteri state'i, reducer ve action'lar
-├── store.js            Merkezi Redux store yapılandırması
-├── App.js              Ana uygulama bileşeni
-└── index.js            Provider ve uygulama başlangıcı
+│   ├── accounts/
+│   │   ├── AccountOperations.jsx
+│   │   └── accountSlice.js
+│   └── customers/
+│       ├── CreateCustomer.jsx
+│       ├── Customer.jsx
+│       └── customerSlice.js
+├── ui/
+│   └── BalanceDisplay.jsx
+├── App.jsx
+├── index.js
+└── store.js
 ```
 
-> Bu dizin yapısı hedeflenen mimariyi gösterir. Redux dosyaları öğrenme adımları tamamlandıkça projeye eklenecektir.
+> [!NOTE]
+> Dosya adlarında `slice` ifadesi kullanılsa da mevcut aşamada yapı klasik Redux reducer ve action creator yaklaşımını içerebilir. Redux Toolkit bölümünde bu dosyalar gerçek `createSlice` yapısına dönüştürülecektir.
+
+### Sorumluluk dağılımı
+
+| Dosya / klasör | Sorumluluk |
+| --- | --- |
+| `store.js` | Root reducer ve Redux store yapılandırması |
+| `accountSlice.js` | Account reducer ve account action creator'ları |
+| `customerSlice.js` | Customer reducer ve customer action creator'ları |
+| `CreateCustomer.jsx` | Müşteri formunun yerel state'i ve create action dispatch işlemi |
+| `AccountOperations.jsx` | Hesap işlemlerinin kullanıcı etkileşimleri |
+| `BalanceDisplay.jsx` | Redux store'daki bakiyenin gösterimi |
+
+---
+
+## Yerel state ve global state ayrımı
+
+Projede bütün veriler Redux'a taşınmamaktadır.
+
+Form alanlarına yazılan geçici değerler bileşen içerisinde `useState` ile tutulur. Kullanıcı işlemi onayladığında gerekli veri Redux action'ı ile global state'e gönderilir.
+
+```text
+Form input değeri        → Yerel component state
+Oluşturulmuş müşteri     → Redux global state
+Deposit input değeri     → Yerel component state
+Güncel hesap bakiyesi    → Redux global state
+```
+
+Bu yaklaşım Redux store'un gereksiz ve geçici UI verileriyle doldurulmasını önler.
+
+---
+
+## Temel Redux kavramları
+
+### Store
+
+Uygulamanın global state'ini tutan merkezi yapıdır.
+
+### Action
+
+Uygulamada ne olduğunu açıklayan düz JavaScript nesnesidir.
+
+```js
+{
+  type: "account/deposit",
+  payload: 500
+}
+```
+
+### Action creator
+
+Action nesnesi oluşturan fonksiyondur.
+
+```js
+export function deposit(amount, currency) {
+  return {
+    type: "account/deposit",
+    payload: { amount, currency },
+  };
+}
+```
+
+### Reducer
+
+Mevcut state ve action değerini alarak yeni state'i belirleyen saf fonksiyondur.
+
+```js
+function accountReducer(state = initialStateAccount, action) {
+  switch (action.type) {
+    case "account/withdraw":
+      return {
+        ...state,
+        balance: state.balance - action.payload,
+      };
+
+    default:
+      return state;
+  }
+}
+```
+
+### Dispatch
+
+Bir action'ı Redux store'a gönderen fonksiyondur.
+
+```js
+dispatch(withdraw(250));
+```
+
+### Selector
+
+Store içerisinden ihtiyaç duyulan state alanını seçer.
+
+```js
+const balance = useSelector((state) => state.account.balance);
+```
+
+---
+
+## Reducer kuralları
+
+Reducer fonksiyonlarında aşağıdaki kurallara dikkat edilmektedir:
+
+1. Reducer aynı state ve action için öngörülebilir sonuç üretmelidir.
+2. Reducer içerisinde API isteği yapılmamalıdır.
+3. Reducer içerisinde zamanlayıcı veya DOM işlemi çalıştırılmamalıdır.
+4. Klasik Redux kullanılırken mevcut state doğrudan değiştirilmemelidir.
+5. Bilinmeyen action durumunda mevcut state geri döndürülmelidir.
+
+```js
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case "example/action":
+      return { ...state, value: action.payload };
+
+    default:
+      return state;
+  }
+}
+```
+
+---
 
 ## Kullanılan teknolojiler
 
 | Teknoloji | Projedeki rolü |
 | --- | --- |
-| [React](https://react.dev/) | Bileşen tabanlı kullanıcı arayüzü |
-| React Hooks | Form alanlarının mevcut yerel durum yönetimi |
-| [Redux](https://redux.js.org/) | Öğrenilmesi hedeflenen merkezi durum yönetimi |
+| [React](https://react.dev/) | Kullanıcı arayüzü ve bileşen yapısı |
+| React Hooks | Yerel form state'i ve React yaşam döngüsü |
+| [Redux](https://redux.js.org/) | Merkezi ve öngörülebilir global state yönetimi |
 | [React-Redux](https://react-redux.js.org/) | React bileşenleri ile Redux store arasındaki bağlantı |
-| [Redux Toolkit](https://redux-toolkit.js.org/) | İlerleyen aşamalarda modern Redux geliştirme yaklaşımı |
-| Testing Library | Kullanıcı davranışlarına odaklanan test altyapısı |
+| [Redux Toolkit](https://redux-toolkit.js.org/) | Bir sonraki aşamada modern Redux geliştirme yaklaşımı |
+| Redux Thunk | Planlanan asenkron işlem yönetimi |
+| Redux DevTools | Action ve state değişimlerini inceleme |
+| Testing Library | Planlanan kullanıcı davranışı testleri |
 
-Redux, React-Redux ve Redux Toolkit tabloda öğrenme hedefi olarak yer almaktadır; mevcut proje bağımlılıklarına henüz eklenmemiştir.
+---
 
-## Kurulum ve çalıştırma
+## Kurulum
 
 Projeyi yerel ortamda çalıştırmak için Node.js ve npm gereklidir.
 
 ```bash
-# Bağımlılıkları kur
-npm ci
-
-# Geliştirme sunucusunu başlat
+git clone <repository-url>
+cd <project-directory>
+npm install
 npm start
 ```
 
-Uygulama varsayılan olarak [http://localhost:3000](http://localhost:3000) adresinde açılır.
+Uygulama varsayılan olarak aşağıdaki adreste çalışır:
+
+```text
+http://localhost:3000
+```
 
 ### Kullanılabilir komutlar
 
 | Komut | Açıklama |
 | --- | --- |
-| `npm start` | Geliştirme sunucusunu başlatır. |
-| `npm test` | Testleri etkileşimli izleme modunda çalıştırır. |
-| `npm run build` | Optimize edilmiş üretim derlemesi oluşturur. |
-| `npm run eject` | CRA yapılandırmasını dışarı çıkarır; geri alınamaz. |
+| `npm start` | Geliştirme sunucusunu başlatır |
+| `npm test` | Testleri izleme modunda çalıştırır |
+| `npm run build` | Production için optimize edilmiş build oluşturur |
+| `npm run eject` | CRA yapılandırmasını dışarı çıkarır; geri alınamaz |
+
+---
+
+## Yol haritası
+
+### Aşama 1 — Klasik Redux temelleri
+
+- [x] Reducer oluşturma
+- [x] Store oluşturma
+- [x] Action type tanımlama
+- [x] Action creator oluşturma
+- [x] Birden fazla reducer kullanma
+- [x] State slice dosya yapısı oluşturma
+
+### Aşama 2 — React-Redux entegrasyonu
+
+- [x] Uygulamayı `Provider` ile sarmalama
+- [x] `useSelector` ile veri okuma
+- [x] `useDispatch` ile action gönderme
+- [x] Yerel state ve global state sorumluluklarını ayırma
+- [ ] Legacy `connect` yaklaşımını inceleme
+
+### Aşama 3 — Asenkron Redux
+
+- [ ] Middleware kavramını öğrenme
+- [ ] Redux Thunk kullanma
+- [ ] API üzerinden döviz kuru alma
+- [ ] Loading durumunu yönetme
+- [ ] Hata durumunu modelleme
+
+### Aşama 4 — Redux Toolkit
+
+- [ ] `configureStore` ile store oluşturma
+- [ ] `createSlice` ile account slice oluşturma
+- [ ] `createSlice` ile customer slice oluşturma
+- [ ] Reducer ve action boilerplate kodunu azaltma
+- [ ] Thunk yapısını Redux Toolkit ile kullanma
+
+### Aşama 5 — Geliştirici araçları ve test
+
+- [ ] Redux DevTools kullanma
+- [ ] Reducer testleri yazma
+- [ ] Action creator testleri yazma
+- [ ] Kullanıcı işlemlerini entegrasyon testleriyle doğrulama
+
+---
 
 ## Öğrenme notları
 
-Bu bölüm, proje geliştikçe karşılaştığım önemli noktaları kaydetmek için kullanılacaktır:
+- Redux state'i doğrudan değiştirilmez; değişiklik isteği action ile ifade edilir.
+- `dispatch`, action'ı reducer'a doğrudan göndermez; Redux store'a gönderir.
+- Store, action'ı ilgili reducer'lara iletir ve yeni state'i saklar.
+- `useSelector`, yalnızca seçilen state değeri değiştiğinde bileşenin yeniden render edilmesini sağlar.
+- `useDispatch`, bileşenin store'a action gönderebilmesini sağlar.
+- Form input değerlerinin tamamını Redux'a taşımak gerekli değildir.
+- Birden fazla bileşenin kullandığı kalıcı uygulama verileri global state için daha güçlü adaylardır.
+- Reducer içerisinde asenkron işlem veya başka bir yan etki gerçekleştirilmemelidir.
+- Klasik Redux'u öğrenmek, Redux Toolkit'in hangi tekrarları ve zorlukları çözdüğünü anlamayı kolaylaştırır.
 
-- Yerel component state, yalnızca ilgili bileşenin ihtiyaç duyduğu geçici form verileri için uygundur.
-- Birden fazla bileşenin okuduğu veya değiştirdiği veriler global state için daha güçlü adaylardır.
-- Redux, tüm state'i global yapmak için değil; paylaşılan ve öngörülebilir biçimde yönetilmesi gereken state için kullanılmalıdır.
-- Reducer içerisinde yan etki gerçekleştirilmemeli; asenkron işlemler middleware katmanında yönetilmelidir.
+---
 
-## Projenin kapsamı
+## Öğrenme yaklaşımı
 
-Bu çalışma:
+Bu projede konular doğrudan Redux Toolkit ile başlanarak değil, önce klasik Redux yapısı kurularak ilerletilmektedir.
 
-- Redux öğrenmek ve tekrar yapmak,
-- kavramları çalışan kod üzerinde görmek,
-- ilerlemeyi commit geçmişiyle belgelemek,
-- klasik Redux ile Redux Toolkit'i karşılaştırmak
+Bu yaklaşım sayesinde:
 
-için geliştirilmektedir.
+- Redux'un temel mekanizması görünür hâle gelir.
+- Action creator ve reducer arasındaki ilişki daha net anlaşılır.
+- Boilerplate kodun neden oluştuğu görülür.
+- Redux Toolkit'in sunduğu kolaylıklar daha bilinçli değerlendirilir.
+- Modern Redux yapısına geçiş yalnızca sözdizimi değişikliği olarak değil, mimari iyileştirme olarak anlaşılır.
 
-Bu çalışma gerçek müşteri verisi saklamak, gerçek para transferi yapmak veya üretim ortamında kullanılacak bir finans sistemi oluşturmak için tasarlanmamıştır.
+---
+
+## Proje kapsamı dışında kalanlar
+
+Bu uygulama aşağıdaki amaçlarla geliştirilmemektedir:
+
+- Gerçek müşteri verisi saklamak
+- Gerçek banka hesaplarına bağlanmak
+- Para transferi gerçekleştirmek
+- Kimlik doğrulama veya yetkilendirme sunmak
+- Finansal işlem güvenliği sağlamak
+- Production ortamında kullanılacak bankacılık altyapısı oluşturmak
+
+---
+
+## Katkı ve geliştirme yaklaşımı
+
+Bu repository kişisel bir öğrenme projesidir. Kod yapısı, Redux eğitimindeki ilerlemeye paralel olarak düzenli biçimde güncellenecektir.
+
+Commit geçmişi aşağıdaki gelişimi görünür kılmayı amaçlar:
+
+```text
+Yerel React state
+        ↓
+Klasik Redux
+        ↓
+React-Redux entegrasyonu
+        ↓
+Middleware ve thunk
+        ↓
+Redux Toolkit
+        ↓
+Test ve iyileştirme
+```
 
 ---
 
 <div align="center">
 
-**Amaç yalnızca çalışan bir uygulama oluşturmak değil, Redux'un neden ve nasıl çalıştığını anlayabilmektir.**
+### Temel hedef
+
+**Yalnızca çalışan bir uygulama geliştirmek değil, Redux'un neden ve nasıl çalıştığını anlayabilmek.**
 
 </div>
