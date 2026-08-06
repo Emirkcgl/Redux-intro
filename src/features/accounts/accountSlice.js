@@ -40,9 +40,13 @@ const accountSlice = createSlice({
       state.loan = 0;
       state.loanPurpose = "";
     },
-    ConvertCurrencyPending(state) {
+    convertCurrencyPending(state) {
       state.isLoading = true;
       state.error = "";
+    },
+    convertCurrencyRejected(state, action) {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });
@@ -52,7 +56,8 @@ export const {
   withdraw,
   requestLoan,
   payLoan,
-  ConvertCurrencyPending,
+  convertCurrencyPending,
+  convertCurrencyRejected,
 } = accountSlice.actions;
 
 export function deposit(amount, currency) {
@@ -61,15 +66,10 @@ export function deposit(amount, currency) {
   if (!numericAmount || numericAmount <= 0) return;
 
   if (currency === "USD") {
-    return {
-      type: "account/deposit",
-      payload: numericAmount,
-    };
+    return depositAction(numericAmount);
   }
-
   return async function (dispatch) {
-    dispatch({ type: "convertCurrency/pending" });
-
+    dispatch(convertCurrencyPending());
     try {
       const res = await fetch(
         `https://api.frankfurter.dev/v2/rate/${currency}/USD`,
@@ -83,17 +83,11 @@ export function deposit(amount, currency) {
 
       const convertedAmount = numericAmount * data.rate;
 
-      dispatch({
-        type: "account/deposit",
-        payload: convertedAmount,
-      });
+      dispatch(depositAction(convertedAmount));
     } catch (error) {
       console.error("Döviz çevirme hatası:", error.message);
 
-      dispatch({
-        type: "convertCurrency/rejected",
-        payload: error.message,
-      });
+      dispatch(convertCurrencyRejected(error.message));
     }
   };
 }
