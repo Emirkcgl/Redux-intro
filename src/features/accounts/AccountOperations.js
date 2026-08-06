@@ -18,8 +18,9 @@ function AccountOperations() {
 
   function handleDeposit() {
     if (!depositAmount) return;
-    dispatch(deposit(depositAmount));
+    dispatch(deposit(depositAmount, currency));
     setDepositAmount("");
+    setCurrency("");
   }
 
   function handleWithdrawal() {
@@ -60,7 +61,11 @@ function AccountOperations() {
             <option value="GBP">İngiliz Sterlini</option>
           </select>
 
-          <button onClick={handleDeposit}>Yatır {depositAmount}</button>
+          <button disabled={account.isLoading} onClick={handleDeposit}>
+            {account.isLoading
+              ? "Döviz çeviriliyor..."
+              : `Yatır ${depositAmount} ${currency}`}
+          </button>
         </div>
 
         <div>
