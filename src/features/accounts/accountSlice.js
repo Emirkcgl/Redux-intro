@@ -48,14 +48,58 @@ const accountSlice = createSlice({
 });
 
 export const {
-  deposit,
+  deposit: depositAction,
   withdraw,
   requestLoan,
   payLoan,
   ConvertCurrencyPending,
 } = accountSlice.actions;
 
+export function deposit(amount, currency) {
+  const numericAmount = Number(amount);
+
+  if (!numericAmount || numericAmount <= 0) return;
+
+  if (currency === "USD") {
+    return {
+      type: "account/deposit",
+      payload: numericAmount,
+    };
+  }
+
+  return async function (dispatch) {
+    dispatch({ type: "convertCurrency/pending" });
+
+    try {
+      const res = await fetch(
+        `https://api.frankfurter.dev/v2/rate/${currency}/USD`,
+      );
+
+      if (!res.ok) {
+        throw new Error(`API hatası: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      const convertedAmount = numericAmount * data.rate;
+
+      dispatch({
+        type: "account/deposit",
+        payload: convertedAmount,
+      });
+    } catch (error) {
+      console.error("Döviz çevirme hatası:", error.message);
+
+      dispatch({
+        type: "convertCurrency/rejected",
+        payload: error.message,
+      });
+    }
+  };
+}
+
 export default accountSlice.reducer;
+
 /*
 export default function accountReducer(state = initialStateAccount, action) {
   switch (action.type) {
